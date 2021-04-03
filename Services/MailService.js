@@ -1,12 +1,6 @@
 import axios from 'axios'
 
 export function SendMailService (mailAddressToSendTo, contentOfMail) {
-/*  const data = {
-    from: 'postmaster@sandboxb1816692980043c1bc064f5a172771c1.mailgun.org',
-    to: 'nitzanmassad@gmail.com',
-    subject: 'Hello',
-    text: 'Congratulations'
-  } */
   const data = {
     from: 'postmaster@sandboxb1816692980043c1bc064f5a172771c1.mailgun.org',
     to: mailAddressToSendTo,
@@ -22,8 +16,8 @@ export function SendMailService (mailAddressToSendTo, contentOfMail) {
         'cache-control': 'no-cache'
       },
       auth: {
-        username: 'api',
-        password: 'af48b29fd78767f8ef151754fb7ecf93-b6d086a8-89632cb6'
+        username: process.env.MAIL_USER,
+        password: process.env.MAIL_SECRET
       }
     }).then((response) => {
     console.log(`response from mail service: ${response.status}`)

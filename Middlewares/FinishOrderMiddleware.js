@@ -8,6 +8,7 @@ export function FinishOrderMiddleware (req, res, next) {
   const userCart = getCartItemsForUser(username)
   const mailContent = BuildMailContent(username, userCart)
   SendMailService(userEmail, mailContent)
+  res.json(`Mail was sent to your email ${userEmail} with your cart content: ${userCart}`)
   res.status(200)
   next()
 }

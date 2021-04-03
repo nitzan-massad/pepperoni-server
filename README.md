@@ -9,10 +9,10 @@ Or you can use the follow instructions:
 
 | Description | URL | Request Type | Body
 | ------ | ------ | ------ | ------ |
-| Add a new user | 127.0.0.1:3000/createNewUser|POST|{"username" : "USERNAME","email": "EMAIL-ADDRESS","streetAddress":"STREET-ADDRESS","name": "FULL NAME"} |
+|Add a new user | 127.0.0.1:3000/createNewUser|POST|{"username" : "USERNAME","email": "EMAIL-ADDRESS","streetAddress":"STREET-ADDRESS","name": "FULL-NAME"} |
 |Edit User information | 127.0.0.1:3000/editUser|POST| JWT + {"CONTENT TO CHANGE" :"CONTENT"} |
 |Delete a User | 127.0.0.1:3000/deleteUser|GET| JWT |
-|Login | 127.0.0.1:3000/login|POST| JWT + {"username": "USERNAME"}|
+|Login | 127.0.0.1:3000/login|POST| {"username": "USERNAME"}|
 |Logout | 127.0.0.1:3000/logout|get| JWT |
 |Get All Menu Items of the site | 127.0.0.1:3000/getAllMenuItems|GET| JWT |
 |Add items to cart | 127.0.0.1:3000/addToCart|POST| JWT + {	"cartItems":[ "ITEM","ITEM", "ITEM"]} |

@@ -10,7 +10,13 @@ export function logoutService (token) {
   blacklist.push(token)
 }
 export function IsLogoutToken (token) {
-  return blacklist.find(element => JSON.stringify(element) === JSON.stringify(token))
+  return blacklist.find(element => JSON.stringify(element) === JSON.stringify(token)) ?? false
+}
+export function extractFromBlackList (token) {
+  const index = blacklist.indexOf(token)
+  if (index > -1) {
+    blacklist.splice(index, 1)
+  }
 }
 function generateSecretToken () {
   const secretToken = require('crypto').randomBytes(64).toString('hex')

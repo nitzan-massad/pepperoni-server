@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import assert from 'assert'
 import { isUserExists, getUser, setNewUser, updateUser, deleteUser } from '../Services/UsersDBService.js'
-import { generateAccessToken, logoutService } from '../Services/LoginService.js'
+import { extractFromBlackList, generateAccessToken, IsLogoutToken, logoutService } from '../Services/LoginService.js'
 import { authenticateAccessToken } from '../Middlewares/SessionMiddleware.js'
 import dotenv from 'dotenv'
 
@@ -106,12 +106,69 @@ describe('Test logoutService function', () => {
     assert(responseMock.statusCode === 401)
   })
 
-  it('should be true, the othe user was not deleted', () => {
-    const expectedAns = { username: newUser1, ...userDetails1 }
-    setNewUser(newUser1, userDetails1)
-    setNewUser(newUser2, userDetails2)
-    deleteUser(newUser2)
-    const ans = getUser(newUser1)
-    assert(JSON.stringify(ans) === JSON.stringify(expectedAns))
+  it('check logout', () => {
+    dotenv.config()
+    const token = generateAccessToken('shlomiShani')
+    logoutService(token)
+    const ans = IsLogoutToken(token)
+    assert(ans)
+  })
+})
+describe('Test extractFromBlackList function', () => {
+  it('list is empty', () => {
+    dotenv.config()
+    const token = generateAccessToken('shlomiShani23')
+    extractFromBlackList(token)
+    const ans = IsLogoutToken(token)
+    assert(!ans)
+  })
+  it('list is with token should work', () => {
+    dotenv.config()
+    const token = generateAccessToken('shlomiShani24')
+    logoutService(token)
+    extractFromBlackList(token)
+    const ans = IsLogoutToken(token)
+    assert(!ans)
+  })
+  it('item is not in the list ', () => {
+    dotenv.config()
+    const token = generateAccessToken('shlomiShani21')
+    const token2 = generateAccessToken('shlomiShani22')
+    logoutService(token)
+    extractFromBlackList(token2)
+    const ans = IsLogoutToken(token2)
+    assert(!ans)
+  })
+})
+
+describe('Test IsLogoutToken function', () => {
+  it('blacklist is empty, so he is not logout ', () => {
+    dotenv.config()
+    const token = generateAccessToken('shlomiShani7')
+    const ans = IsLogoutToken(token)
+    assert(!ans)
+  })
+  it('should be true', () => {
+    dotenv.config()
+    const token = generateAccessToken('shlomiShani5')
+    logoutService(token)
+    const ans = IsLogoutToken(token)
+    assert(ans)
+  })
+
+  it('token dont exist in the list ', () => {
+    dotenv.config()
+    const token = generateAccessToken('shlomiShani3')
+    const token2 = generateAccessToken('shlomiShani4')
+    logoutService(token)
+    const ans = IsLogoutToken(token2)
+    assert(!ans)
+  })
+  it('token is undefined  ', () => {
+    dotenv.config()
+    const token = generateAccessToken('shlomiShani7')
+    logoutService(token)
+    const ans = IsLogoutToken(undefined)
+    assert(!ans)
   })
 })

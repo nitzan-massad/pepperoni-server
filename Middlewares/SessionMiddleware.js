@@ -1,5 +1,5 @@
 import { isUserExists } from '../Services/UsersDBService.js'
-import { generateAccessToken, IsLogoutToken, logoutService } from '../Services/LoginService.js'
+import { extractFromBlackList, generateAccessToken, IsLogoutToken, logoutService } from '../Services/LoginService.js'
 import jwt from 'jsonwebtoken'
 
 export function LoginMiddleware (req, res, next) {
@@ -15,6 +15,7 @@ export function LoginMiddleware (req, res, next) {
     return
   }
   const accessToken = generateAccessToken(username)
+  extractFromBlackList(accessToken)
   res.json(accessToken)
   res.status(200)
   next()
@@ -24,6 +25,7 @@ export function LogoutMiddleware (req, res, next) {
   const token = authHeader && authHeader.split(' ')[0]
 
   logoutService(token)
+  res.json('logout successfully ')
   res.status(200)
   next()
 }
