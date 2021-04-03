@@ -74,51 +74,20 @@ describe('Test CreateNewUserMiddleware middleware', () => {
 })
 
 describe('Test EditUserMiddleware middleware', () => {
-  it('should be false user undefined', () => {
+  it('should be true', () => {
     const responseMock = {
       statusCode: undefined,
       status: (value) => { responseMock.statusCode = value },
       send: (value) => {}
     }
     const defaultRequest = {
-      body: {
-        username: undefined,
-        ...userDetails1
-      }
-    }
-    EditUserMiddleware(defaultRequest, responseMock, () => {})
-    assert(responseMock.statusCode === 400)
-  })
-
-  it('should be false username not provided', () => {
-    const responseMock = {
-      statusCode: undefined,
-      status: (value) => { responseMock.statusCode = value },
-      send: (value) => {}
-    }
-    const defaultRequest = {
+      username: newUser1,
       body: {
         ...userDetails1
       }
     }
     EditUserMiddleware(defaultRequest, responseMock, () => {})
-    assert(responseMock.statusCode === 400)
-  })
-
-  it('should be false username not exists', () => {
-    const responseMock = {
-      statusCode: undefined,
-      status: (value) => { responseMock.statusCode = value },
-      send: (value) => {}
-    }
-    const defaultRequest = {
-      body: {
-        username: newUser1 + 'blabla',
-        ...userDetails1
-      }
-    }
-    EditUserMiddleware(defaultRequest, responseMock, () => {})
-    assert(responseMock.statusCode === 400)
+    assert(responseMock.statusCode === 200)
   })
   it('should be true', () => {
     const responseMock = {
@@ -127,9 +96,10 @@ describe('Test EditUserMiddleware middleware', () => {
       send: (value) => {}
     }
     const defaultRequest = {
+      username: newUser1,
       body: {
-        username: newUser1,
-        ...userDetails1
+        ...userDetails1,
+        ...{ email: 'userDetails@newmail.com' }
       }
     }
     EditUserMiddleware(defaultRequest, responseMock, () => {})
@@ -148,13 +118,12 @@ describe('Test DeleteUserMiddleware middleware', () => {
       }
     }
     const defaultRequest = {
+      username: undefined,
       body: {
-        username: undefined,
         ...userDetails1
       }
     }
-    DeleteUserMiddleware(defaultRequest, localResponseMock, () => {
-    })
+    DeleteUserMiddleware(defaultRequest, localResponseMock, () => {})
     assert(localResponseMock.statusCode === 400)
   })
   it('should be false no username ', () => {
@@ -179,8 +148,8 @@ describe('Test DeleteUserMiddleware middleware', () => {
       send: (value) => {}
     }
     const defaultRequest = {
+      username: newUser1,
       body: {
-        username: newUser1,
         ...userDetails1
       }
     }

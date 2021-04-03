@@ -57,6 +57,14 @@ describe('Test updateUser function', () => {
     const ans = getUser(newUser1)
     assert(JSON.stringify(ans) !== JSON.stringify(expectedAns))
   })
+  it('update part of user details', () => {
+    setNewUser(newUser1, userDetails1)
+    const partOfDetails = { email: userDetails2.email }
+    const expectedAns = { username: newUser1, ...userDetails1, ...partOfDetails }
+    updateUser(newUser1, partOfDetails)
+    const ans = getUser(newUser1)
+    assert(JSON.stringify(ans) === JSON.stringify(expectedAns))
+  })
 })
 describe('Test deleteUser function', () => {
   it('should be true', () => {

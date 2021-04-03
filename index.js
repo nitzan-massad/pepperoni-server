@@ -13,13 +13,13 @@ const app = express()
 const hostname = '127.0.0.1'
 const port = 3000
 
-app.post('/CreateNewUser', bodyParser.json(), CreateNewUserMiddleware, (req, res) => {
+app.post('/createNewUser', bodyParser.json(), CreateNewUserMiddleware, (req, res) => {
 })
-app.post('/EditUser', bodyParser.json(), EditUserMiddleware, (req, res) => {
+app.post('/editUser', bodyParser.json(), authenticateAccessToken, EditUserMiddleware, (req, res) => {
 })
-app.post('/DeleteUser', bodyParser.json(), DeleteUserMiddleware, (req, res) => {
+app.get('/deleteUser', bodyParser.json(), authenticateAccessToken, DeleteUserMiddleware, (req, res) => {
 })
-app.post('/Login', bodyParser.json(), LoginMiddleware, (req, res) => {
+app.post('/login', bodyParser.json(), LoginMiddleware, (req, res) => {
 })
 app.get('/getAllMenuItems', bodyParser.json(), authenticateAccessToken, MenuItemMiddleware, (req, res) => {
 })

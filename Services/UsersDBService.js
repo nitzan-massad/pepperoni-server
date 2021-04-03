@@ -13,7 +13,7 @@ export function isUserExists (username) {
   return username in usersInformation
 }
 export function updateUser (username, userDetails) {
-  usersInformation[username] = userDetails
+  usersInformation[username] = { ...usersInformation[username], ...userDetails }
 }
 export function deleteUser (username) {
   delete usersInformation[username]

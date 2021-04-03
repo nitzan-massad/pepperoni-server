@@ -19,30 +19,17 @@ export function CreateNewUserMiddleware (req, res, next) {
 }
 
 export function EditUserMiddleware (req, res, next) {
-  const username = req?.body?.username
-  if (!username) {
-    res.status(400)
-    res.send('Please insert username to Edit.')
-    return
-  }
-  if (!isUserExists(username)) {
-    res.status(400)
-    res.send(`username ${username} is not registered in the site.`)
-    return
-  }
-  updateUser(username, { email: req?.body?.email, streetAddress: req?.body?.streetAdderss, name: req?.body?.name })
+  const username = req?.username
+
+  updateUser(username, { ...req.body })
   res.status(200)
   res.send(`user ${username} updated successfully.`)
   next()
 }
 
 export function DeleteUserMiddleware (req, res, next) {
-  const username = req?.body?.username
-  if (!username) {
-    res.status(400)
-    res.send('Please insert username to delete.')
-    return
-  }
+  const username = req?.username
+
   if (!isUserExists(username)) {
     res.status(400)
     res.send(`username ${username} is not registered in the site so will not be deleted`)
