@@ -2,7 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser'
 import { CreateNewUserMiddleware, DeleteUserMiddleware, EditUserMiddleware } from './Middlewares/UsersMiddleware.js'
-import { authenticateAccessToken, LoginMiddleware } from './Middlewares/SessionMiddleware.js'
+import { authenticateAccessToken, LoginMiddleware, LogoutMiddleware } from './Middlewares/SessionMiddleware.js'
 import { MenuItemMiddleware } from './Middlewares/MenuItemMiddleware.js'
 import { AddToCartMiddleware } from './Middlewares/CartMiddleware.js'
 import { FinishOrderMiddleware } from './Middlewares/FinishOrderMiddleware.js'
@@ -20,6 +20,8 @@ app.post('/editUser', bodyParser.json(), authenticateAccessToken, EditUserMiddle
 app.get('/deleteUser', bodyParser.json(), authenticateAccessToken, DeleteUserMiddleware, (req, res) => {
 })
 app.post('/login', bodyParser.json(), LoginMiddleware, (req, res) => {
+})
+app.get('/logout', bodyParser.json(), authenticateAccessToken, LogoutMiddleware, (req, res) => {
 })
 app.get('/getAllMenuItems', bodyParser.json(), authenticateAccessToken, MenuItemMiddleware, (req, res) => {
 })

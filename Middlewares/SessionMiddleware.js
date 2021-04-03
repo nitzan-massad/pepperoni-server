@@ -1,5 +1,5 @@
 import { isUserExists } from '../Services/UsersDBService.js'
-import { generateAccessToken } from '../Services/LoginService.js'
+import { generateAccessToken, IsLogoutToken, logoutService } from '../Services/LoginService.js'
 import jwt from 'jsonwebtoken'
 
 export function LoginMiddleware (req, res, next) {
@@ -19,10 +19,19 @@ export function LoginMiddleware (req, res, next) {
   res.status(200)
   next()
 }
+export function LogoutMiddleware (req, res, next) {
+  const authHeader = req.headers.authorization
+  const token = authHeader && authHeader.split(' ')[0]
+
+  logoutService(token)
+  res.status(200)
+  next()
+}
 export function authenticateAccessToken (req, res, next) {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[0]
   if (token == null) return res.sendStatus(401)
+  if (IsLogoutToken(token)) return res.sendStatus(401)
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403)
