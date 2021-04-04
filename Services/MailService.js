@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export function SendMailService (mailAddressToSendTo, contentOfMail) {
+export async function SendMailService (mailAddressToSendTo, contentOfMail) {
   const data = {
     from: 'postmaster@sandbox2d66f08ea90f4c899007250d43e94dab.mailgun.org',
     to: mailAddressToSendTo,
@@ -8,7 +8,7 @@ export function SendMailService (mailAddressToSendTo, contentOfMail) {
     text: contentOfMail
   }
   const queryParam = BuildUrlQueryParams(data)
-  axios.post('https://api.mailgun.net/v3/sandbox2d66f08ea90f4c899007250d43e94dab.mailgun.org/messages',
+  return await axios.post('https://api.mailgun.net/v3/sandbox2d66f08ea90f4c899007250d43e94dab.mailgun.org/messages',
     queryParam,
     {
       headers: {
@@ -19,11 +19,7 @@ export function SendMailService (mailAddressToSendTo, contentOfMail) {
         username: process.env.MAIL_USER,
         password: process.env.MAIL_SECRET
       }
-    }).then((response) => {
-    console.log(`response from mail service: ${response.status}`)
-  }, (error) => {
-    console.log(`error in mail service: ${error}`)
-  })
+    })
 }
 
 export function BuildUrlQueryParams (data) {

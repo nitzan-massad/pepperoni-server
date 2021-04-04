@@ -13,10 +13,17 @@ export function FinishOrderMiddleware (req, res, next) {
   }
   const userCart = getCartItemsForUser(username)
   const mailContent = BuildMailContent(username, userCart)
-  SendMailService(userEmail, mailContent)
-  res.json(`Mail was sent to your email ${userEmail} with your cart content: ${userCart}`)
-  res.status(200)
-  next()
+  SendMailService(userEmail, mailContent).then((response) => {
+    console.log(`response from mail service: ${response.status}`)
+    res.json(`Mail was sent to your email ${userEmail} with your cart content: ${userCart}`)
+    res.status(200)
+    next()
+  }, (error) => {
+    console.log(`error in mail service: ${error}`)
+    res.json(error.response.data.message)
+    res.status(error.response.status)
+    next()
+  })
 }
 
 function BuildMailContent (username, userCart) {
