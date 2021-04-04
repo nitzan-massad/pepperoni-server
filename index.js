@@ -17,7 +17,7 @@ app.post('/createNewUser', bodyParser.json(), CreateNewUserMiddleware, (req, res
 })
 app.post('/editUser', bodyParser.json(), authenticateAccessToken, EditUserMiddleware, (req, res) => {
 })
-app.get('/deleteUser', bodyParser.json(), authenticateAccessToken, DeleteUserMiddleware, (req, res) => {
+app.get('/deleteUser', bodyParser.json(), authenticateAccessToken, DeleteUserMiddleware, LogoutMiddleware, (req, res) => {
 })
 app.post('/login', bodyParser.json(), LoginMiddleware, (req, res) => {
 })

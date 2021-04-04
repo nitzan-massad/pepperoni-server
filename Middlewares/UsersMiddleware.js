@@ -1,4 +1,4 @@
-import { deleteUser, isUserExists, setNewUser, updateUser } from '../Services/UsersDBService.js'
+import { deleteUser, getUser, isUserExists, setNewUser, updateUser } from '../Services/UsersDBService.js'
 
 export function CreateNewUserMiddleware (req, res, next) {
   const username = req?.body?.username
@@ -22,6 +22,7 @@ export function EditUserMiddleware (req, res, next) {
   const username = req?.username
 
   updateUser(username, { ...req.body })
+  getUser(username)
   res.status(200)
   res.send(`user ${username} updated successfully.`)
   next()

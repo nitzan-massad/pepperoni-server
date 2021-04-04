@@ -2,13 +2,13 @@ import axios from 'axios'
 
 export function SendMailService (mailAddressToSendTo, contentOfMail) {
   const data = {
-    from: 'postmaster@sandboxb1816692980043c1bc064f5a172771c1.mailgun.org',
+    from: 'postmaster@sandbox2d66f08ea90f4c899007250d43e94dab.mailgun.org',
     to: mailAddressToSendTo,
     subject: 'Receipt From Pepperoni Pizza',
     text: contentOfMail
   }
   const queryParam = BuildUrlQueryParams(data)
-  axios.post('https://api.mailgun.net/v3/sandboxb1816692980043c1bc064f5a172771c1.mailgun.org/messages',
+  axios.post('https://api.mailgun.net/v3/sandbox2d66f08ea90f4c899007250d43e94dab.mailgun.org/messages',
     queryParam,
     {
       headers: {

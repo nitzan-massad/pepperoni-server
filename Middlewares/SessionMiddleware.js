@@ -37,7 +37,7 @@ export function authenticateAccessToken (req, res, next) {
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403)
-    req.username = user
+    req.username = user.username
     next()
   })
 }

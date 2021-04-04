@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 
 const blacklist = []
 export function generateAccessToken (username) {
-  const ans = jwt.sign(username, process.env.TOKEN_SECRET)
+  const ans = jwt.sign({ username: username }, process.env.TOKEN_SECRET, { expiresIn: 3600 })
   return ans
 }
 
